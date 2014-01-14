@@ -37,9 +37,9 @@ public class Timeline extends Weibo {
 	 *      href="http://open.weibo.com/wiki/2/statuses/destroy">statuses/destroy</a>
 	 * @since JDK 1.5
 	 */
-	public Status Destroy(String id) throws WeiboException {
-		return new Status(client.post(WeiboConfig.getValue("baseURL") + "statuses/destroy.json",
-				new PostParameter[] { new PostParameter("id", id) }));
+	public Status Destroy(String id, String accessToken) throws WeiboException {
+		return new Status(client.post(WeiboConfig.getValue("baseURL") + "statuses/destroy.json", new PostParameter[] {
+				new PostParameter("access_token", accessToken), new PostParameter("id", id) }, false));
 	}
 
 	/**

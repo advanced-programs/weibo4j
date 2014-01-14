@@ -23,9 +23,10 @@ public class Users extends Weibo {
 	 *      href="http://open.weibo.com/wiki/2/users/domain_show">users/domain_show</a>
 	 * @since JDK 1.5
 	 */
-	public JSONArray getUserCount(String uids) throws WeiboException {
+	public JSONArray getUserCount(String uids, String accessToken) throws WeiboException {
 		return client.get(WeiboConfig.getValue("baseURL") + "users/counts.json",
-				new PostParameter[] { new PostParameter("uids", uids) }).asJSONArray();
+						new PostParameter[] { new PostParameter("access_token", accessToken),
+								new PostParameter("uids", uids) }, false).asJSONArray();
 	}
 
 	/**
@@ -78,8 +79,9 @@ public class Users extends Weibo {
 	 * @see <a href="http://open.weibo.com/wiki/2/users/show">users/show</a>
 	 * @since JDK 1.5
 	 */
-	public User showUserByScreenName(String screen_name) throws WeiboException {
+	public User showUserByScreenName(String screen_name, String accessToken) throws WeiboException {
 		return new User(client.get(WeiboConfig.getValue("baseURL") + "users/show.json",
-				new PostParameter[] { new PostParameter("screen_name", screen_name) }).asJSONObject());
+				new PostParameter[] { new PostParameter("access_token", accessToken),
+						new PostParameter("screen_name", screen_name) }, false).asJSONObject());
 	}
 }
