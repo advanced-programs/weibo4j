@@ -335,9 +335,10 @@ public class Timeline extends Weibo {
 	 *      </a>
 	 * @since JDK 1.5
 	 */
-	public StatusWapper getPublicTimeline(int count, int baseApp) throws WeiboException {
+	public StatusWapper getPublicTimeline(int count, int baseApp, String accessToken) throws WeiboException {
 		return Status.constructWapperStatus(client.get(WeiboConfig.getValue("baseURL")
-				+ "statuses/public_timeline.json", new PostParameter[] { new PostParameter("count", count),
+				+ "statuses/public_timeline.json", new PostParameter[] {
+				new PostParameter("access_token", accessToken), new PostParameter("count", count),
 				new PostParameter("base_app", baseApp) }));
 
 	}
