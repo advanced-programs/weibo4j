@@ -26,7 +26,7 @@ public class TimelineTest {
 
 	@Before
 	public void prepared() {
-		token = "2.00TaAMACdcZIJC1694b41295JLRojB";
+		token = "2.00lb_yKCdcZIJC4bd5178db43QmLQE";
 		wid = "3658805823088157";
 		wids = "3658805823088157,3367321181575224,3648558105935644";
 	}
@@ -42,8 +42,7 @@ public class TimelineTest {
 	@Test
 	public void testTimelineShowBatch_新增批量获取微博接口() throws WeiboException {
 		Timeline tm = new Timeline();
-		tm.client.setToken(token);
-		List<Status> status = tm.showBatch(wids, 0);
+		List<Status> status = tm.showBatch(wids, 0, token);
 		//			System.out.println(status);
 		assertEquals(3, status.size());
 		assertTrue(wids.contains(status.get(0).getId()));
@@ -72,20 +71,32 @@ public class TimelineTest {
 	@Test
 	public void testShowStatus_增加赞字段() throws WeiboException {
 		Timeline tm = new Timeline();
-		tm.client.setToken(token);
-		Status status = tm.showStatus(wid);
+		Status status = tm.showStatus(wid, token);
 		assertTrue(status.getAttitudesCount() > 0);
 	}
 
 	@Test
 	public void testShowBatchStatus_增加批量获取微博转评数接口() throws WeiboException {
 		Timeline tm = new Timeline();
-		tm.client.setToken(token);
-		List<SimpleStatus> statuses = tm.showBatchStatus(wids);
+		List<SimpleStatus> statuses = tm.showBatchStatus(wids, token);
 		assertTrue(wids.contains(statuses.get(0).getId()));
 		assertTrue(statuses.get(0).getRepostsCount() > 0);
 		assertTrue(statuses.get(0).getCommentsCount() > 0);
 		assertTrue(statuses.get(0).getAttitudesCount() > 0);
+	}
+
+	@Test
+	public void testPublicWeibos() throws WeiboException {
+		Timeline tm = new Timeline();
+		StatusWapper statuses = tm.getPublicTimeline(10, 0, token);
+		assertTrue(statuses.getTotalNumber() == 10);
+	}
+
+	@Test
+	public void testShowStatus() throws WeiboException {
+		Timeline tm = new Timeline();
+		Status status = tm.showStatus(wid, token);
+		assertEquals(wid, status.getId());
 	}
 
 }
