@@ -14,7 +14,7 @@ public class Comments extends Weibo {
 
 	/**
 	 * 对一条微博进行评论
-	 * 
+	 *
 	 * @param comment
 	 *            评论内容，必须做URLencode，内容不超过140个汉字
 	 * @param id
@@ -36,7 +36,7 @@ public class Comments extends Weibo {
 
 	/**
 	 * 对一条微博进行评论
-	 * 
+	 *
 	 * @param comment
 	 *            评论内容，必须做URLencode，内容不超过140个汉字
 	 * @param id
@@ -59,7 +59,7 @@ public class Comments extends Weibo {
 
 	/**
 	 * 根据评论ID批量删除评论
-	 * 
+	 *
 	 * @param ids
 	 *            需要删除的评论ID，用半角逗号隔开，最多20个
 	 * @return list of Comment
@@ -77,7 +77,7 @@ public class Comments extends Weibo {
 
 	/**
 	 * 删除一条评论
-	 * 
+	 *
 	 * @param cid
 	 *            要删除的评论ID，只能删除登录用户自己发布的评论
 	 * @return Comment
@@ -95,7 +95,7 @@ public class Comments extends Weibo {
 
 	/**
 	 * 根据微博ID返回某条微博的评论列表
-	 * 
+	 *
 	 * @param id
 	 *            需要查询的微博ID
 	 * @return list of Comment
@@ -113,7 +113,7 @@ public class Comments extends Weibo {
 
 	/**
 	 * 根据微博ID返回某条微博的评论列表
-	 * 
+	 *
 	 * @param id
 	 *            需要查询的微博ID
 	 * @param count
@@ -138,7 +138,7 @@ public class Comments extends Weibo {
 
 	/**
 	 * 获取当前登录用户所发出的评论列表
-	 * 
+	 *
 	 * @return list of Comment
 	 * @throws WeiboException
 	 *             when Weibo service or network is unavailable
@@ -153,7 +153,7 @@ public class Comments extends Weibo {
 
 	/**
 	 * 获取当前登录用户所发出的评论列表
-	 * 
+	 *
 	 * @param count
 	 *            单页返回的记录条数，默认为50
 	 * @param page
@@ -175,7 +175,7 @@ public class Comments extends Weibo {
 
 	/**
 	 * 获取最新的提到当前登录用户的评论，即@我的评论
-	 * 
+	 *
 	 * @return list of Comment
 	 * @throws WeiboException
 	 *             when Weibo service or network is unavailable
@@ -184,13 +184,14 @@ public class Comments extends Weibo {
 	 *      href="http://open.weibo.com/wiki/2/comments/mentions">comments/mentions</a>
 	 * @since JDK 1.5
 	 */
-	public CommentWapper getCommentMentions() throws WeiboException {
-		return Comment.constructWapperComments(client.get(WeiboConfig.getValue("baseURL") + "comments/mentions.json"));
+	public CommentWapper getCommentMentions(String accessToken) throws WeiboException {
+		return Comment.constructWapperComments(client.get(WeiboConfig.getValue("baseURL") + "comments/mentions.json",
+				new PostParameter[] { new PostParameter("access_token", accessToken) }, false));
 	}
 
 	/**
 	 * 获取最新的提到当前登录用户的评论，即@我的评论
-	 * 
+	 *
 	 * @param count
 	 *            单页返回的记录条数，默认为50。
 	 * @param page
@@ -207,16 +208,17 @@ public class Comments extends Weibo {
 	 *      href="http://open.weibo.com/wiki/2/comments/mentions">comments/mentions</a>
 	 * @since JDK 1.5
 	 */
-	public CommentWapper getCommentMentions(Paging page, Integer filter_by_source, Integer filter_by_author)
-			throws WeiboException {
+	public CommentWapper getCommentMentions(Paging page, Integer filter_by_source, Integer filter_by_author,
+			String accessToken) throws WeiboException {
 		return Comment.constructWapperComments(client.get(WeiboConfig.getValue("baseURL") + "comments/mentions.json",
 				new PostParameter[] { new PostParameter("filter_by_source", filter_by_source.toString()),
-						new PostParameter("filter_by_author", filter_by_author.toString()) }, page));
+						new PostParameter("filter_by_author", filter_by_author.toString()),
+						new PostParameter("access_token", accessToken) }, page, false));
 	}
 
 	/**
 	 * 根据评论ID批量返回评论信息
-	 * 
+	 *
 	 * @param cids
 	 *            需要查询的批量评论ID，用半角逗号分隔，最大50
 	 * @return list of Comment
@@ -234,7 +236,7 @@ public class Comments extends Weibo {
 
 	/**
 	 * 获取当前登录用户的最新评论包括接收到的与发出的
-	 * 
+	 *
 	 * @return list of Comment
 	 * @throws WeiboException
 	 *             when Weibo service or network is unavailable
@@ -249,7 +251,7 @@ public class Comments extends Weibo {
 
 	/**
 	 * 获取当前登录用户的最新评论包括接收到的与发出的
-	 * 
+	 *
 	 * @param count
 	 *            单页返回的记录条数，默认为50。
 	 * @param page
@@ -269,7 +271,7 @@ public class Comments extends Weibo {
 
 	/**
 	 * 获取当前登录用户所接收到的评论列表
-	 * 
+	 *
 	 * @return list of Comment
 	 * @throws WeiboException
 	 *             when Weibo service or network is unavailable
@@ -284,7 +286,7 @@ public class Comments extends Weibo {
 
 	/**
 	 * 获取当前登录用户所接收到的评论列表
-	 * 
+	 *
 	 * @param count
 	 *            单页返回的记录条数，默认为50。
 	 * @param page
@@ -309,9 +311,9 @@ public class Comments extends Weibo {
 	}
 
 	/**
-	 * 回复一条评论 
+	 * 回复一条评论
 	 * @param comment 评论内容，必须做URLencode，内容不超过140个汉字
-	 * 
+	 *
 	 * @param cid
 	 *            需要回复的评论ID
 	 * @param id
@@ -331,7 +333,7 @@ public class Comments extends Weibo {
 
 	/**
 	 * 回复一条评论
-	 * 
+	 *
 	 * @param comment
 	 *            评论内容，必须做URLencode，内容不超过140个汉字
 	 * @param cid
