@@ -1,7 +1,12 @@
-简介
------
-新浪微博SDK，略有改动。
 
-改动详情
------
-* 配置文件更名为：sinaweibo_config.properties
+# 新浪和腾讯微博SDK，以及使用示例
+
+> 基于Java实现。
+
+### 开发人员
+
+WeChat: wgybzb
+
+QQ: 1010437118
+
+E-mail: wgybzb@sina.cn
